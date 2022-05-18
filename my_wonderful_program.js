@@ -1,4 +1,5 @@
-import clipboardy from 'clipboardy'
+import clipboardy from 'clipboardy';
+import yargs from 'yargs';
 
 console.log('Node rocks!');
 
@@ -11,10 +12,11 @@ function makePwd(length) {
 
     for ( var i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      clipboardy.writeSync(result);
    }
-   return result;
+   return result
 }
 
 console.log(makePwd(5));
 
-//// penser à yargs = process.argv ?    
+//// penser à yargs = process.argv ?  /////
