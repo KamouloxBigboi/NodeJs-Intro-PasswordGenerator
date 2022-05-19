@@ -2,12 +2,25 @@ import clipboardy from 'clipboardy';
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { blue, red } from "ansicolor";
+const characters = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]`;
+const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
 yargs(hideBin(process.argv))
   .command('pwgen', 'generate password', () => {}, (argv) => {
     console.info("longueur du mot de passe : " + argv._[1])
     let pwdlength = argv._[1]
-    let pwd = makePwd(pwdlength)
+    let pwd = makePwd(pwdlength)  
+
+    for (let i = 0; i < pwdlength; i++) {
+      if (/\d/.test(pwd[i])) {
+        process.stdout.write(pwd[i].red);
+      } else if (specialChars.test(pwd[i])) {
+        process.stdout.write(pwd[i].blue);
+      } else {
+        process.stdout.write(pwd[i]);
+      }
+    }
+    
 
     console.log(pwd)
 
@@ -23,12 +36,11 @@ yargs(hideBin(process.argv))
 function makePwd(length) {
 
   let result  = '';
-  const characters = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]`;
-  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   let charactersLength = characters.length;
-
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  while (!/\d/.test(result) && !specialChars.test(result)) {
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
   }
   return result
 }
