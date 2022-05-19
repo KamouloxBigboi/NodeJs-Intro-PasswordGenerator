@@ -14,9 +14,9 @@ yargs(hideBin(process.argv))
 
 
     for (let i = 0; i < pwdlength; i++) {
-      if ((/\d/.test(pwd[i])) && argv.r) {
+      if (/\d/.test(pwd[i])) {
         process.stdout.write(pwd[i].red);
-      } else if ((specialChars.test(pwd[i])) && argv.b) {
+      } else if (specialChars.test(pwd[i])) {
         process.stdout.write(pwd[i].blue);
       } else {
         process.stdout.write(pwd[i]);
